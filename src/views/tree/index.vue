@@ -1,78 +1,124 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
-
-    <el-tree
-      ref="tree2"
-      :data="data2"
-      :props="defaultProps"
-      :filter-node-method="filterNode"
-      class="filter-tree"
-      default-expand-all
-    />
-
+    <el-tabs type="border-card">
+      <el-tab-pane label="Computer">
+        <el-table :data="ComputerList" stripe style="width: 100%">
+          <el-table-column label="#" min-width="150">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">
+                <img :src="scope.row.image" />
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="type" min-width="150"></el-table-column>
+          <el-table-column prop="name" label="name" min-width="150"></el-table-column>
+          <el-table-column prop="msg" label="msg" min-width="150"></el-table-column>
+          <el-table-column prop="number" label="number" min-width="150"></el-table-column>
+          <el-table-column label="操作" min-width="150">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="SEM">
+        <el-table :data="SEMList" stripe style="width: 100%">
+          <el-table-column label="#" min-width="150">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">
+                <img :src="scope.row.image" />
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="type" min-width="150"></el-table-column>
+          <el-table-column prop="name" label="name" min-width="150"></el-table-column>
+          <el-table-column prop="msg" label="msg" min-width="150"></el-table-column>
+          <el-table-column prop="number" label="number" min-width="150"></el-table-column>
+          <el-table-column label="操作" min-width="150">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="Communication">
+        <el-table :data="CommunicationList" stripe style="width: 100%">
+          <el-table-column label="#" min-width="150">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">
+                <img :src="scope.row.image" />
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="type" min-width="150"></el-table-column>
+          <el-table-column prop="name" label="name" min-width="150"></el-table-column>
+          <el-table-column prop="msg" label="msg" min-width="150"></el-table-column>
+          <el-table-column prop="number" label="number" min-width="150"></el-table-column>
+          <el-table-column label="操作" min-width="150">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="Other">
+        <el-table :data="OtherList" stripe style="width: 100%">
+          <el-table-column label="#" min-width="150">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">
+                <img :src="scope.row.image" />
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="type" min-width="150"></el-table-column>
+          <el-table-column prop="name" label="name" min-width="150"></el-table-column>
+          <el-table-column prop="msg" label="msg" min-width="150"></el-table-column>
+          <el-table-column prop="number" label="number" min-width="150"></el-table-column>
+          <el-table-column label="操作" min-width="150">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
+import { getintroduceList } from "@/api/homepage";
 export default {
-
   data() {
     return {
-      filterText: '',
-      data2: [{
-        id: 1,
-        label: 'Level one 1',
-        children: [{
-          id: 4,
-          label: 'Level two 1-1',
-          children: [{
-            id: 9,
-            label: 'Level three 1-1-1'
-          }, {
-            id: 10,
-            label: 'Level three 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: 'Level one 2',
-        children: [{
-          id: 5,
-          label: 'Level two 2-1'
-        }, {
-          id: 6,
-          label: 'Level two 2-2'
-        }]
-      }, {
-        id: 3,
-        label: 'Level one 3',
-        children: [{
-          id: 7,
-          label: 'Level two 3-1'
-        }, {
-          id: 8,
-          label: 'Level two 3-2'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
-    }
+      ComputerList: [],
+      SEMList: [],
+      CommunicationList: [],
+      OtherList: [],
+      AllList: []
+    };
   },
-  watch: {
-    filterText(val) {
-      this.$refs.tree2.filter(val)
-    }
+  created() {
+    this.fetchData();
   },
-
   methods: {
-    filterNode(value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
+    fetchData() {
+      getintroduceList().then(response => {
+        this.AllList = response.data.items;
+        this.ComputerList = response.data.items.filter(function(val) {
+          return val.type === "Computer";
+        });
+        this.SEMList = response.data.items.filter(function(val) {
+          return val.type === "SEM";
+        });
+        this.CommunicationList = response.data.items.filter(function(val) {
+          return val.type === "Communication";
+        });
+        this.OtherList = response.data.items.filter(function(val) {
+          return val.type === "Other";
+        });
+      });
     }
   }
-}
+};
 </script>
 
